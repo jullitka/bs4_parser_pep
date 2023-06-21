@@ -10,7 +10,7 @@ from tqdm import tqdm
 from configs import configure_argument_parser, configure_logging
 from constants import (BASE_DIR, EXPECTED_STATUS,
                        MAIN_DOC_URL, MAIN_PEP_URL,
-                       STATUS_PEP, STATUS_PEP_PATH, RESULTS_DIR)
+                       STATUS_PEP_PATH, RESULTS_DIR)
 from exceptions import ParserFindTagException
 from outputs import control_output
 from utils import find_tag, get_response, get_soup, get_status
@@ -104,7 +104,7 @@ def pep(session):
             pep_status = status_tag.text[1]
         results.append([pep_url, pep_status])
         status = get_status(session, pep_url)
-        if status != EXPECTED_STATUS[pep_status]:
+        if status not in EXPECTED_STATUS[pep_status]:
             logs.append((f'Несовпадающие статусы {pep_url}. '
                          f'Статус в карточке: {status}. '
                          f'Ожидаемый статус: {EXPECTED_STATUS[pep_status]}'))
