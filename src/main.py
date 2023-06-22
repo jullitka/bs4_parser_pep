@@ -105,16 +105,17 @@ def pep(session):
         results.append([pep_url, pep_status])
         status = get_status(session, pep_url)
         if status not in EXPECTED_STATUS[pep_status]:
-            logs.append((f'Несовпадающие статусы {pep_url}. '
-                         f'Статус в карточке: {status}. '
-                         f'Ожидаемый статус: {EXPECTED_STATUS[pep_status]}'))
+            warning_msg = (f'Несовпадающие статусы {pep_url}. '
+                           f'Статус в карточке: {status}. '
+                           f'Ожидаемый статус: {EXPECTED_STATUS[pep_status]}')
+            logs.append(warning_msg)
         total_pep_statuses[status] = total_pep_statuses.get(status, 0) + 1
         total += 1
     list(map(logging.warning, logs))
 
     RESULTS_DIR.mkdir(exist_ok=True)
 
-    with open(STATUS_PEP_PATH, 'w') as file:
+    with open(STATUS_PEP_PATH, 'w', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(['Статус', 'Количество'])
 
@@ -133,19 +134,22 @@ MODE_TO_FUNCTION = {
 
 
 def main():
-    configure_logging()
-    logging.info('Парсер запущен!')
-    arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())
-    args = arg_parser.parse_args()
-    logging.info(f'Аргументы командной строки: {args}')
-    session = CachedSession()
-    if args.clear_cache:
-        session.cache.clear()
-    parser_mode = args.mode
-    results = MODE_TO_FUNCTION[parser_mode](session)
-    if results is not None:
-        control_output(results, args)
-    logging.info('Парсер завершил работу.')
+    try:
+        configure_logging()
+        logging.info('Парсер запущен!')
+        arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())
+        args = arg_parser.parse_args()
+        logging.info(f'Аргументы командной строки: {args}')
+        session = CachedSession()
+        if args.clear_cache:
+            session.cache.clear()
+        parser_mode = args.mode
+        results = MODE_TO_FUNCTION[parser_mode](session)
+        if results is not None:
+            control_output(results, args)
+        logging.info('Парсер завершил работу.')
+    except Exception as error:
+        logging.exception(f'{error}', stack_info=True)
 
 
 if __name__ == '__main__':
