@@ -10,6 +10,9 @@ Cобирает информацию об обновлениях версий Py
 ## Стек технологий:
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=ffffff&color=043A6B)](https://www.python.org/)
 [![BeautifulSoup4](https://img.shields.io/badge/-BeautifulSoup4-464646?style=flat&logo=BeautifulSoup4&logoColor=ffffff&color=043A6B)](https://www.crummy.com/software/BeautifulSoup/)
+[![Prettytable](https://img.shields.io/badge/-Prettytable-464646?style=flat&logo=Prettytable&logoColor=ffffff&color=043A6B)](https://github.com/jazzband/prettytable)
+[![Logging](https://img.shields.io/badge/-Logging-464646?style=flat&logo=Logging&logoColor=ffffff&color=043A6B)](https://docs.python.org/3/library/logging.html)
+
 
  
  ## Запуск проекта
@@ -58,3 +61,5 @@ optional arguments:
   -o {pretty,file}, --output {pretty,file}
                         Дополнительные способы вывода данных
 ```
+## Авторы
+[Юлия Пашкова](https://github.com/Jullitka)
